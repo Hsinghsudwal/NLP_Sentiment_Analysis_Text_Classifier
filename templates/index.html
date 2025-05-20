@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <p>Enter text to analyze its sentiment:</p>
+    
+    <div class="input-container">
+        <textarea id="textInput" placeholder="Type your text here..."></textarea>
+    </div>
+    
+    <button id="analyzeBtn">Analyze Sentiment</button>
+    
+    <div class="loading" id="loading">
+        Analyzing...
+    </div>
+    
+    <div class="result-card" id="result">
+        <div class="result-text">
+            Sentiment: <span id="sentiment"></span>
+        </div>
+        <div class="confidence">
+            Confidence: <span id="confidence"></span>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('analyzeBtn').addEventListener('click', async () => {
+            const text = document.getElementById('textInput').value.trim();
+            
+            if (!text) {
+                alert('Please enter some text to analyze.');
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text })
+                });
+                
+                const data = await response.json();
+                
+                // Update UI with results
+                document.getElementById('sentiment').textContent = data.sentiment;
+                document.getElementById('sentiment').className = data.sentiment;
+                document.getElementById('confidence').textContent = `${data.confidence * 100}%`;
+                
+                // Show results
+                document.getElementById('result').style.display = 'block';
+            } catch (error) {
+                alert('Error analyzing sentiment: ' + error.message);
+                console.error('Error:', error);
+            } finally {
+                // Hide loading indicator
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

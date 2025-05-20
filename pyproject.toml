@@ -1,0 +1,12 @@
+[project]
+name = "nlp-sentiment-analysis-text-classifier"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+    "matplotlib>=3.10.3",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.6.1",
+]

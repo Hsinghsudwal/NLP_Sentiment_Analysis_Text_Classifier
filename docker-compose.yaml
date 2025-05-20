@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  sentiment-analysis:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./models:/app/models
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
